@@ -1,0 +1,33 @@
+/* Gradient Background */
+.bg-main {
+  background: linear-gradient(135deg, #0f172a, #1e293b, #020617);
+  color: white;
+}
+
+/* Animated Gradient */
+.bg-animated {
+  background: linear-gradient(-45deg, #0ea5e9, #6366f1, #8b5cf6, #22c55e);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* Glass Effect */
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Grid Pattern */
+.bg-grid {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+}

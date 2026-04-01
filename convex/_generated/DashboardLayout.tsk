@@ -1,0 +1,304 @@
+import { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
+import { toast } from "sonner";
+import {
+  LayoutDashboard,
+  Megaphone,
+  Mail,
+  MessageSquare,
+  Tag,
+  Award,
+  Users,
+  BarChart3,
+  Star,
+  HeadphonesIcon,
+  Settings,
+  Store,
+  Menu,
+  X,
+  LogOut,
+  import { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
+import { toast } from "sonner";
+import {
+  LayoutDashboard,
+  Megaphone,
+  Mail,
+  MessageSquare,
+  Tag,
+  Award,
+  Users,
+  BarChart3,
+  Star,
+  HeadphonesIcon,
+  Settings,
+  Store,
+  Menu,
+  X,
+  LogOut,
+  ChevronLeft,
+} from "lucide-react";
+import { Button } from "@/components/ui/button.tsx";
+import { useAuth } from "@/hooks/use-auth.ts";
+import { cn } from "@/lib/utils.ts";
+
+type NavItem = {
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  label: string;
+  href: string;
+  built: boolean;
+  badge?: string;
+};
+
+const navGroups: { title: string; items: NavItem[] }[] = [
+  {
+    title: "الرئيسية",
+    items: [
+      { icon: LayoutDashboard, label: "لوحة التحكم", href: "/dashboard", built: true },
+      { icon: Store, label: "متجري", href: "/dashboard/store", built: false },
+    ],
+  },
+  {
+    import { useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
+import { toast } from "sonner";
+import {
+  LayoutDashboard,
+  Megaphone,
+  Mail,
+  MessageSquare,
+  Tag,
+  Award,
+  Users,
+  BarChart3,
+  Star,
+  HeadphonesIcon,
+  Settings,
+  Store,
+  Menu,
+  X,
+  LogOut,
+  ChevronLeft,
+} from "lucide-react";
+import { Button } from "@/components/ui/button.tsx";
+import { useAuth } from "@/hooks/use-auth.ts";
+import { cn } from "@/lib/utils.ts";
+
+type NavItem = {
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  label: string;
+  href: string;
+  built: boolean;
+  badge?: string;
+};
+
+const navGroups: { title: string; items: NavItem[] }[] = [
+  {
+    title: "الرئيسية",
+    items: [
+      { icon: LayoutDashboard, label: "لوحة التحكم", href: "/dashboard", built: true },
+      { icon: Store, label: "متجري", href: "/dashboard/store", built: false },
+    ],
+  },
+  {
+    title: "التسويق",
+    items: [
+      { icon: Megaphone, label: "الحملات", href: "/dashboard/campaigns", built: false, badge: "قريباً" },
+      { icon: Mail, label: "البريد الإلكتروني", href: "/dashboard/email", built: false, badge: "قريباً" },
+      { icon: MessageSquare, label: "SMS & WhatsApp", href: "/dashboard/sms", built: false, badge: "قريباً" },
+    ],
+  },
+  {
+    title: "المبيعات",
+    items: [
+      { icon: Tag, label: "الكوبونات والعروض", href: "/dashboard/coupons", built: false, badge: "قريباً" },
+      { icon: Award, label: "برامج الولاء", href: "/dashboard/loyalty", built: false, badge: "قريباً" },
+      { icon: Users, label: "التسويق بالعمولة", href: "/dashboard/affiliate", built: false, badge: "قريباً" },
+    ],
+  },
+  {
+    title: "التحليلات",
+    items: [
+      { icon: BarChart3, label: "التحليلات والذكاء", href: "/dashboard/analytics", built: false, badge: "قريباً" },
+      { icon: Star, label: "التقييمات", href: "/dashboard/reviews", built: false, badge: "قريباً" },
+    ],
+  },
+  {
+    title: "الإعدادات",
+    items: [
+      { icon: HeadphonesIcon, label: "دعم العملاء", href: "/dashboard/support", built: false },
+      { icon: Settings, label: "الإعدادات", href: "/dashboard/settings", built: false },
+    ],
+  },
+];
+
+export default function DashboardLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, removeUser } = useAuth();
+
+  const handleNavClick = (item: NavItem) => {
+    if (!item.built) {
+      toast.info("قريباً!", {
+        description: `ميزة "${item.label}" ستكون متاحة في التحديث القادم`,
+        duration: 3000,
+      });
+      setSidebarOpen(false);
+      return;
+    }
+    navigate(item.href);
+    setSidebarOpen(false);
+  };
+
+  const SidebarContent = () => (
+    <div className="flex flex-col h-full">
+      {/* Logo */}
+      <div className="p-5 border-b border-border/50">
+        <a href="/" className="flex items-center gap-2 group">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center shadow-lg shadow-primary/30">
+            <span className="text-primary-foreground font-black">N</span>
+          </div>
+          <span className="text-lg font-black tracking-tight">
+            <span className="text-foreground">NEX</span>
+            <span className="text-primary">RB</span>
+          </span>
+        </a>
+      </div>
+
+      {/* Nav */}
+      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-5">
+        {navGroups.map((group) => (
+          <div key={group.title}>
+            <p className="text-xs font-bold text-muted-foreground/60 uppercase tracking-widest px-3 mb-2">
+              {group.title}
+            </p>
+            <div className="space-y-1">
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.href;
+                return (
+                  <button
+                    key={item.href}
+                    onClick={() => handleNavClick(item)}
+                    className={cn(
+                      "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 text-start",
+                      isActive
+                        ? "bg-primary/15 text-primary border border-primary/30 shadow-sm shadow-primary/10"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/80"
+                    )}
+                  >
+                    <Icon size={17} className={isActive ? "text-primary" : ""} />
+                    <span className="flex-1">{item.label}</span>
+                    {item.badge && (
+                      <span className="text-[10px] font-bold bg-accent/20 text-accent px-1.5 py-0.5 rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
+                    {isActive && <ChevronLeft size={14} className="text-primary" />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </nav>
+
+      {/* User profile */}
+      <div className="p-4 border-t border-border/50">
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/40 to-accent/40 flex items-center justify-center text-sm font-bold text-foreground flex-shrink-0">
+            {user?.profile.name?.charAt(0) ?? "T"}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-foreground truncate">
+              {user?.profile.name ?? "التاجر"}
+            </p>
+            <p className="text-xs text-muted-foreground truncate">
+              {user?.profile.email ?? ""}
+            </p>
+          </div>
+          <button
+            onClick={() => removeUser()}
+            className="text-muted-foreground hover:text-destructive transition-colors flex-shrink-0"
+            title="تسجيل الخروج"
+          >
+            <LogOut size={15} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-background flex" dir="rtl">
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:flex flex-col w-64 border-s border-border/50 bg-sidebar fixed top-0 end-0 bottom-0 z-30">
+        <SidebarContent />
+      </aside>
+
+      {/* Mobile Overlay */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSidebarOpen(false)}
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
+            />
+            <motion.aside
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 end-0 bottom-0 w-72 bg-sidebar border-s border-border/50 z-50 lg:hidden"
+            >
+              <div className="flex justify-end p-4">
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="p-1.5 text-muted-foreground hover:text-foreground rounded-lg hover:bg-secondary transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <SidebarContent />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Main Content */}
+      <main className="flex-1 lg:me-64 min-h-screen flex flex-col">
+        {/* Mobile header */}
+        <div className="lg:hidden flex items-center justify-between px-4 py-3 border-b border-border/50 bg-card/50 backdrop-blur-sm sticky top-0 z-20">
+          <a href="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center">
+              <span className="text-primary-foreground font-black text-sm">N</span>
+            </div>
+            <span className="font-black tracking-tight">
+              <span className="text-foreground">NEX</span>
+              <span className="text-primary">RB</span>
+            </span>
+          </a>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setSidebarOpen(true)}
+            className="p-2"
+          >
+            <Menu size={20} />
+          </Button>
+        </div>
+
+        <div className="flex-1 p-4 md:p-6 lg:p-8 max-w-screen-2xl">
+          <Outlet />
+        </div>
+      </main>
+    </div>
+  );
+}
